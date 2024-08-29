@@ -11,7 +11,7 @@ interface ApiClientProviderProps {
 export const ApiClientProvider: React.FC<ApiClientProviderProps> = ({
   children,
 }) => {
-  const { tokens } = useTokens();
+  const { tokens, updateTokens } = useTokens();
 
   const apiClient = useMemo(() => {
     const instance = axios.create({
@@ -25,8 +25,19 @@ export const ApiClientProvider: React.FC<ApiClientProviderProps> = ({
       return config;
     });
 
+    instance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.data?.statusCode == 401) {
+          updateTokens(null);
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
     return instance;
-  }, [tokens]);
+  }, [tokens, updateTokens]);
 
   return (
     <ApiClientContext.Provider value={apiClient}>

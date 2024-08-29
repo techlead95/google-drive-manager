@@ -3,7 +3,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  Logger,
   Param,
   Post,
   Res,
@@ -15,9 +14,9 @@ import { GoogleDriveService } from './google-drive.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
-  ApiHeader,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -28,23 +27,20 @@ import { GoogleApiExceptionFilter } from './google-drive.filter';
 import { GoogleDriveResponses } from './google-drive.decorator';
 
 @ApiTags('google-drive')
-@ApiHeader({
-  name: 'Authorization',
-  description: 'Bearer <access_token>',
-})
+@ApiBearerAuth()
 @Controller('v1/google-drive/files')
 @UseFilters(GoogleApiExceptionFilter)
 export class GoogleDriveController {
-  private readonly logger = new Logger(GoogleDriveController.name);
-
   constructor(private readonly googleDriveService: GoogleDriveService) {}
 
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
   @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
-  @GoogleDriveResponses()
+  // @GoogleDriveResponses()
   async listFiles(@AccessToken() accessToken: string) {
-    return this.googleDriveService.listFiles(accessToken);
+    this.googleDriveService.setAccessToken(accessToken);
+
+    return this.googleDriveService.listFiles();
   }
 
   @Post()
@@ -67,7 +63,9 @@ export class GoogleDriveController {
     @AccessToken() accessToken: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.googleDriveService.uploadFile(accessToken, file);
+    this.googleDriveService.setAccessToken(accessToken);
+
+    return this.googleDriveService.uploadFile(file);
   }
 
   @Get(':fileId')
@@ -84,8 +82,10 @@ export class GoogleDriveController {
     @Param('fileId') fileId: string,
     @Res() res: Response,
   ) {
+    this.googleDriveService.setAccessToken(accessToken);
+
     const { fileStream, fileName, mimeType } =
-      await this.googleDriveService.downloadFile(accessToken, fileId);
+      await this.googleDriveService.downloadFile(fileId);
 
     res.contentType(mimeType);
     res.attachment(fileName);
@@ -107,7 +107,10 @@ export class GoogleDriveController {
     @AccessToken() accessToken: string,
     @Param('fileId') fileId: string,
   ) {
-    await this.googleDriveService.deleteFile(accessToken, fileId);
+    this.googleDriveService.setAccessToken(accessToken);
+
+    await this.googleDriveService.deleteFile(fileId);
+
     return { message: 'File deleted successfully' };
   }
 }

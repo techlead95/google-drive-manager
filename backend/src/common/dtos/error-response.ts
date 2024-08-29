@@ -9,7 +9,4 @@ export class ErrorResponse {
 
   @ApiProperty()
   message: string;
-
-  @ApiProperty()
-  path: string;
 }

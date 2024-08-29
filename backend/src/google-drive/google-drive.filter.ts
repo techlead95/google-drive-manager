@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ErrorResponse } from 'src/common/dtos/error-response';
 
 @Catch()
@@ -13,7 +13,6 @@ export class GoogleApiExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
 
     const status =
       exception instanceof HttpException
@@ -28,7 +27,6 @@ export class GoogleApiExceptionFilter implements ExceptionFilter {
 
     const errorResponse: ErrorResponse = {
       statusCode: isApiKeyIssue ? HttpStatus.UNAUTHORIZED : status,
-      path: request.url,
       error: isApiKeyIssue ? 'Unauthorized' : exception.name || 'Error',
       message: errorMessage,
     };

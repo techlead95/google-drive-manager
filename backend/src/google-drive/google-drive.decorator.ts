@@ -9,10 +9,5 @@ export function GoogleDriveResponses() {
       description: 'Unauthorized: Missing or invalid API key.',
       type: ErrorResponse,
     }),
-    ApiResponse({
-      status: 500,
-      description: 'Internal Server Error: An unexpected error occurred.',
-      type: ErrorResponse,
-    }),
   );
 }

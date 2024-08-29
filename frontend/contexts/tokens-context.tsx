@@ -16,7 +16,7 @@ interface Tokens {
 
 interface TokensContextValue {
   tokens: Tokens | null;
-  updateTokens: (tokens: Tokens) => void;
+  updateTokens: (tokens: Tokens | null) => void;
 }
 
 const TokensContext = createContext<TokensContextValue | undefined>(undefined);
@@ -26,16 +26,15 @@ export const TokensProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     try {
-      const storedTokens = JSON.parse(localStorage.getItem("tokens") ?? "");
-
-      if (storedTokens && storedTokens.expiry_date > Date.now()) {
-        setTokens(storedTokens);
-      }
+      // const storedTokens = JSON.parse(localStorage.getItem("tokens") ?? "");
+      // if (storedTokens) {
+      //   setTokens(storedTokens);
+      // }
     } catch {}
   }, []);
 
   const updateTokens = useMemo(
-    () => (newTokens: Tokens) => {
+    () => (newTokens: Tokens | null) => {
       setTokens(newTokens);
       localStorage.setItem("tokens", JSON.stringify(newTokens));
     },

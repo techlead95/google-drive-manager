@@ -1,3 +1,5 @@
+"use client";
+
 import useGetFiles from "@/apis/google-drive/use-get-files";
 
 export default function FilesList() {

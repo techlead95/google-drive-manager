@@ -7,7 +7,8 @@ export default function useInitiateLogin() {
   const apiClient = useApiClient();
 
   return useMutation<{ url: string }>({
-    mutationFn: () => apiClient.get("/google-drive/auth").then((r) => r.data),
+    mutationFn: () =>
+      apiClient.get("/auth/google/authorize").then((r) => r.data),
     onSuccess(response) {
       location.href = response.url;
     },

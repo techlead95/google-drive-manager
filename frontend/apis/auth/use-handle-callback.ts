@@ -3,17 +3,25 @@ import { useTokens } from "@/contexts/tokens-context";
 import { useEffect } from "react";
 
 export default function useHandleCallback() {
-  const code = new URLSearchParams(location.search).get("code");
   const apiClient = useApiClient();
   const { updateTokens } = useTokens();
 
   useEffect(() => {
+    const code = new URLSearchParams(location.search).get("code");
+
+    const removeSearchParams = () => {
+      window.history.replaceState(
+        {},
+        document.title,
+        new URL(window.location.href).pathname
+      );
+    };
+
     if (code) {
-      apiClient
-        .get("/google-drive/callback", { params: { code } })
-        .then((r) => {
-          updateTokens(r.data);
-        });
+      apiClient.get("/auth/google/callback", { params: { code } }).then((r) => {
+        updateTokens(r.data);
+        removeSearchParams();
+      });
     }
-  }, [code, apiClient, updateTokens]);
+  }, [apiClient, updateTokens]);
 }

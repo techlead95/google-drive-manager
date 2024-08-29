@@ -5,8 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
-
   const config = new DocumentBuilder()
     .setTitle('Google Drive Management API')
     .setDescription('API for managing Google Drive files')
@@ -16,6 +14,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: 'Authorization, Content-Type',
+  });
 
   await app.listen(5000);
 }
