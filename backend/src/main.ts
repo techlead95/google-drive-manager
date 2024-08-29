@@ -17,7 +17,9 @@ async function bootstrap() {
 
   app.enableCors({
     origin: '*',
-    allowedHeaders: 'Authorization, Content-Type',
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    exposedHeaders: 'Content-Disposition',
   });
 
   await app.listen(5000);

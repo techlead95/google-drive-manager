@@ -1,7 +1,7 @@
 "use client";
 
 import useHandleCallback from "@/apis/auth/use-handle-callback";
-import FilesList from "@/components/files-list";
+import FileList from "@/components/file-list";
 import GoogleLogin from "@/components/google-login";
 import { useTokens } from "@/contexts/tokens-context";
 
@@ -16,7 +16,7 @@ export default function Home() {
           <GoogleLogin />
         </div>
       ) : (
-        <FilesList />
+        <FileList />
       )}
     </main>
   );

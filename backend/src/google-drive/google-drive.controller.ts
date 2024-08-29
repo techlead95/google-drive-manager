@@ -36,7 +36,7 @@ export class GoogleDriveController {
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
   @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
-  // @GoogleDriveResponses()
+  @GoogleDriveResponses()
   async listFiles(@AccessToken() accessToken: string) {
     this.googleDriveService.setAccessToken(accessToken);
 

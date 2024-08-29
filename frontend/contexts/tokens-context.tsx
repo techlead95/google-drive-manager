@@ -26,10 +26,10 @@ export const TokensProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     try {
-      // const storedTokens = JSON.parse(localStorage.getItem("tokens") ?? "");
-      // if (storedTokens) {
-      //   setTokens(storedTokens);
-      // }
+      const storedTokens = JSON.parse(localStorage.getItem("tokens") ?? "");
+      if (storedTokens) {
+        setTokens(storedTokens);
+      }
     } catch {}
   }, []);
 

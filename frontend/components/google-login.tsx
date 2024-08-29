@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "./ui/button";
-import LoadingSpinner from "./loading-spinner";
 import useInitiateLogin from "@/apis/auth/use-initiate-login";
 
 export default function GoogleLogin() {
@@ -13,9 +12,8 @@ export default function GoogleLogin() {
       onClick={() => {
         initiateLogin.mutate();
       }}
-      className="w-44"
     >
-      {initiateLogin.isPending ? <LoadingSpinner /> : "Sign in with Google"}
+      Sign in with Google
     </Button>
   );
 }

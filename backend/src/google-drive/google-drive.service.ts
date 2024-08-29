@@ -25,7 +25,8 @@ export class GoogleDriveService {
 
     const response = await drive.files.list({
       pageSize: 10,
-      fields: 'nextPageToken, files(id, name)',
+      fields: 'nextPageToken, files(id, name, modifiedTime)',
+      q: "mimeType != 'application/vnd.google-apps.folder'",
     });
 
     return response.data.files;
