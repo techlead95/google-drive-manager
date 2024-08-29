@@ -1,6 +1,7 @@
 "use client";
 
 import useAccessToken from "@/apis/google-drive/use-access-token";
+import FilesList from "@/components/files-list";
 import GoogleLogin from "@/components/google-login";
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
           <GoogleLogin />
         </div>
       ) : (
-        <p>Access token: {accessToken}</p>
+        <FilesList accessToken={accessToken} />
       )}
     </main>
   );
