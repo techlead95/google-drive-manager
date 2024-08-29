@@ -9,14 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { Button } from "./ui/button";
-import { Download, Trash } from "lucide-react";
 import { format } from "date-fns";
 import DownloadFileButton from "./download-file-button";
 import DeleteFileButton from "./delete-file-button";
 
 export default function FileList() {
-  const { data } = useGetFiles();
+  const { data, refetch } = useGetFiles();
 
   if (!data) {
     return null;
@@ -39,7 +37,11 @@ export default function FileList() {
             <TableCell>
               <div className="flex gap-2">
                 <DownloadFileButton fileId={file.id} />
-                <DeleteFileButton fileId={file.id} fileName={file.name} />
+                <DeleteFileButton
+                  fileId={file.id}
+                  fileName={file.name}
+                  onSuccess={refetch}
+                />
               </div>
             </TableCell>
           </TableRow>

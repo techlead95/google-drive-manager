@@ -14,7 +14,8 @@ export default function useInitiateLogin() {
     },
     onError() {
       toast({
-        title: "Error initiating login",
+        title: "Login Failed",
+        description: "An error occurred while trying to sign in with Google.",
         variant: "destructive",
       });
     },
