@@ -3,10 +3,12 @@ import {
   Delete,
   Get,
   HttpCode,
+  Logger,
   Param,
   Post,
   Res,
   UploadedFile,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { GoogleDriveService } from './google-drive.service';
@@ -22,19 +24,25 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AccessToken } from 'src/auth/auth.decorator';
+import { GoogleApiExceptionFilter } from './google-drive.filter';
+import { GoogleDriveResponses } from './google-drive.decorator';
 
-@Controller('v1/google-drive/files')
 @ApiTags('google-drive')
 @ApiHeader({
   name: 'Authorization',
   description: 'Bearer <access_token>',
 })
+@Controller('v1/google-drive/files')
+@UseFilters(GoogleApiExceptionFilter)
 export class GoogleDriveController {
+  private readonly logger = new Logger(GoogleDriveController.name);
+
   constructor(private readonly googleDriveService: GoogleDriveService) {}
 
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
   @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
+  @GoogleDriveResponses()
   async listFiles(@AccessToken() accessToken: string) {
     return this.googleDriveService.listFiles(accessToken);
   }
@@ -54,6 +62,7 @@ export class GoogleDriveController {
       },
     },
   })
+  @GoogleDriveResponses()
   async uploadFile(
     @AccessToken() accessToken: string,
     @UploadedFile() file: Express.Multer.File,
@@ -69,6 +78,7 @@ export class GoogleDriveController {
     description: 'ID of the file to download',
   })
   @ApiResponse({ status: 200, description: 'File stream' })
+  @GoogleDriveResponses()
   async downloadFile(
     @AccessToken() accessToken: string,
     @Param('fileId') fileId: string,
@@ -91,6 +101,7 @@ export class GoogleDriveController {
     description: 'ID of the file to delete',
   })
   @ApiResponse({ status: 204, description: 'File deleted successfully' })
+  @GoogleDriveResponses()
   @HttpCode(204)
   async deleteFile(
     @AccessToken() accessToken: string,

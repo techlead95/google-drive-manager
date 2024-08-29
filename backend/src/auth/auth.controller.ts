@@ -35,7 +35,16 @@ export class AuthController {
     type: GoogleCallbackResponse,
   })
   @Get('callback')
-  async googleCallback(@Query('code') code: string) {
-    return this.authService.getToken(code);
+  async googleCallback(
+    @Query('code') code: string,
+  ): Promise<GoogleCallbackResponse> {
+    const tokens = await this.authService.getToken(code);
+
+    return {
+      accessToken: tokens.access_token,
+      scope: tokens.scope,
+      tokenType: tokens.token_type,
+      expiryDate: tokens.expiry_date,
+    };
   }
 }

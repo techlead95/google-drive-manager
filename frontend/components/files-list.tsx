@@ -1,11 +1,13 @@
-interface Props {
-  accessToken: string;
-}
+import useGetFiles from "@/apis/google-drive/use-get-files";
 
-export default function FilesList({ accessToken }: Props) {
+export default function FilesList() {
+  const { data } = useGetFiles();
+
+  console.log(data);
+
   return (
     <div>
-      <p>Access token: {accessToken}</p>
+      <p>Files List</p>
     </div>
   );
 }

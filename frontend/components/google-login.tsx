@@ -1,8 +1,8 @@
 "use client";
 
-import useInitiateLogin from "@/apis/google-drive/use-initiate-login";
 import { Button } from "./ui/button";
 import LoadingSpinner from "./loading-spinner";
+import useInitiateLogin from "@/apis/auth/use-initiate-login";
 
 export default function GoogleLogin() {
   const initiateLogin = useInitiateLogin();

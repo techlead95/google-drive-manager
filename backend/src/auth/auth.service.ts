@@ -23,7 +23,7 @@ export class AuthService {
 
   async getToken(code: string) {
     const { tokens } = await this.oauth2Client.getToken(code);
-    this.oauth2Client.setCredentials(tokens);
+
     return tokens;
   }
 }

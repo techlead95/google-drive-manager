@@ -1,20 +1,20 @@
 "use client";
 
-import useAccessToken from "@/apis/google-drive/use-access-token";
 import FilesList from "@/components/files-list";
 import GoogleLogin from "@/components/google-login";
+import { useTokens } from "@/contexts/tokens-context";
 
 export default function Home() {
-  const { data: accessToken } = useAccessToken();
+  const tokens = useTokens();
 
   return (
     <main className="h-screen p-6">
-      {!accessToken ? (
+      {!tokens ? (
         <div className="h-full flex justify-center items-center">
           <GoogleLogin />
         </div>
       ) : (
-        <FilesList accessToken={accessToken} />
+        <FilesList />
       )}
     </main>
   );

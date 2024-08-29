@@ -1,15 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient from "../apiClient";
-import { AxiosResponse } from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import { useApiClient } from "@/contexts/api-client-context";
 
 export default function useInitiateLogin() {
   const { toast } = useToast();
+  const apiClient = useApiClient();
 
-  return useMutation<string>({
+  return useMutation<{ url: string }>({
     mutationFn: () => apiClient.get("/google-drive/auth").then((r) => r.data),
-    onSuccess(authUrl) {
-      location.href = authUrl;
+    onSuccess(response) {
+      location.href = response.url;
     },
     onError() {
       toast({
