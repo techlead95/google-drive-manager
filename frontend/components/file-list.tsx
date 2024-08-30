@@ -33,6 +33,7 @@ export default function FileList() {
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
+            <TableHead>Type</TableHead>
             <TableHead>Last Modified</TableHead>
             <TableHead className="w-0"></TableHead>
           </TableRow>
@@ -42,6 +43,7 @@ export default function FileList() {
             page.files.map((file) => (
               <TableRow key={file.id}>
                 <TableCell className="font-medium">{file.name}</TableCell>
+                <TableCell className="font-medium">{file.mimeType}</TableCell>
                 <TableCell>
                   {format(new Date(file.modifiedTime), "Pp")}
                 </TableCell>

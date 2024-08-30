@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
-import { ErrorResponse } from 'src/common/dtos/error-response';
+import { ErrorResponse } from '../common/dtos/error-response';
 
 export function GoogleDriveResponses() {
   return applyDecorators(

@@ -22,7 +22,7 @@ export class GoogleApiExceptionFilter implements ExceptionFilter {
     const isApiKeyIssue = this.isApiKeyException(exception);
 
     const errorMessage = isApiKeyIssue
-      ? 'Missing or invalid Google Drive API key. Please ensure your credentials are correct.'
+      ? 'Missing or invalid access token.'
       : 'An unexpected error occurred.';
 
     const errorResponse: ErrorResponse = {
@@ -35,6 +35,6 @@ export class GoogleApiExceptionFilter implements ExceptionFilter {
   }
 
   private isApiKeyException(exception: HttpException): boolean {
-    return exception.message.includes('missing a valid API key');
+    return exception.message.includes('API key');
   }
 }

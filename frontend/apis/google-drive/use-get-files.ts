@@ -3,6 +3,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 interface File {
   id: string;
+  mimeType: string;
   modifiedTime: string;
   name: string;
 }

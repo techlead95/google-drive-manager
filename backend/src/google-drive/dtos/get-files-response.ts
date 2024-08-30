@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class GetFilesResponseItem {
+class File {
   @ApiProperty({
     description: 'The ID of the file',
   })
@@ -12,6 +12,11 @@ class GetFilesResponseItem {
   name: string;
 
   @ApiProperty({
+    description: 'The MIME type of the file',
+  })
+  mimeType: string;
+
+  @ApiProperty({
     description: 'The time the file was last modified',
   })
   modifiedTime: string;
@@ -19,10 +24,10 @@ class GetFilesResponseItem {
 
 export default class GetFilesResponse {
   @ApiProperty({
-    type: [GetFilesResponseItem],
+    type: [File],
     description: 'Array of files',
   })
-  files: GetFilesResponseItem[];
+  files: File[];
 
   @ApiProperty({
     description: 'Token for the next page, if available',

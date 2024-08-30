@@ -25,7 +25,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AccessToken } from 'src/auth/auth.decorator';
+import { AccessToken } from '../auth/auth.decorator';
 import { GoogleApiExceptionFilter } from './google-drive.filter';
 import { GoogleDriveResponses } from './google-drive.decorator';
 import GetFilesResponse from './dtos/get-files-response';
