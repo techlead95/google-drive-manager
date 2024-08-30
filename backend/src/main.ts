@@ -9,7 +9,7 @@ async function bootstrap() {
     .setTitle('Google Drive Management API')
     .setDescription('API for managing Google Drive files')
     .setVersion('1.0')
-    .addTag('google-drive')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

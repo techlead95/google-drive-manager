@@ -29,10 +29,11 @@ import { AccessToken } from 'src/auth/auth.decorator';
 import { GoogleApiExceptionFilter } from './google-drive.filter';
 import { GoogleDriveResponses } from './google-drive.decorator';
 import GetFilesResponse from './dtos/get-files-response';
+import UploadFileResponse from './dtos/upload-file-response';
 
-@ApiTags('google-drive')
 @ApiBearerAuth()
 @Controller('v1/google-drive/files')
+@ApiTags('google-drive')
 @UseFilters(GoogleApiExceptionFilter)
 export class GoogleDriveController {
   private readonly logger = new Logger(GoogleDriveController.name);
@@ -41,15 +42,14 @@ export class GoogleDriveController {
 
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
-  @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
   @ApiQuery({
-    name: 'pageSize',
+    name: 'pageToken',
     required: false,
-    description: 'Number of files per page',
+    description: 'Token for fetching the next page of results',
   })
   @ApiResponse({
     status: 200,
-    description: 'List of files in Google Drive',
+    description: 'List of files and token for the next page',
     type: GetFilesResponse,
   })
   @GoogleDriveResponses()
@@ -64,7 +64,6 @@ export class GoogleDriveController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  @ApiOperation({ summary: 'Upload a file to Google Drive' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -76,6 +75,12 @@ export class GoogleDriveController {
         },
       },
     },
+  })
+  @ApiOperation({ summary: 'Upload a file to Google Drive' })
+  @ApiResponse({
+    status: 201,
+    description: 'File uploaded successfully',
+    type: UploadFileResponse,
   })
   @GoogleDriveResponses()
   async uploadFile(
