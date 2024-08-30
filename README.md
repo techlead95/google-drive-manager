@@ -44,7 +44,15 @@ cd frontend
 npm run start
 ```
 
-3. Visit [http://localhost:3000](http://localhost:3000) in the browser
+3. Visit [http://localhost:3000](http://localhost:3000) in the browser to use the application.
+
+4. Visit [http://localhost:5000/api](http://localhost:5000/api) in the browser to check API documentation.
+
+## Running the Test
+```
+cd backend
+npm run test
+```
 
 ## Assumptions and Design Decisions
 1. Assumed that this application doesn't need to support folder navigation.
