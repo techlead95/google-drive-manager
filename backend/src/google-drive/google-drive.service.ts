@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
+import { Readable } from 'stream';
 
 @Injectable()
 export class GoogleDriveService {
@@ -35,6 +36,10 @@ export class GoogleDriveService {
   async uploadFile(file: Express.Multer.File) {
     const drive = google.drive({ version: 'v3', auth: this.oauth2Client });
 
+    const bufferStream = new Readable();
+    bufferStream.push(file.buffer);
+    bufferStream.push(null);
+
     const response = await drive.files.create({
       requestBody: {
         name: file.originalname,
@@ -42,7 +47,7 @@ export class GoogleDriveService {
       },
       media: {
         mimeType: file.mimetype,
-        body: file.buffer,
+        body: bufferStream,
       },
     });
 

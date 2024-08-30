@@ -3,6 +3,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  Logger,
   Param,
   Post,
   Res,
@@ -31,12 +32,14 @@ import { GoogleDriveResponses } from './google-drive.decorator';
 @Controller('v1/google-drive/files')
 @UseFilters(GoogleApiExceptionFilter)
 export class GoogleDriveController {
+  private readonly logger = new Logger(GoogleDriveController.name);
+
   constructor(private readonly googleDriveService: GoogleDriveService) {}
 
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
   @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
-  // @GoogleDriveResponses()
+  @GoogleDriveResponses()
   async listFiles(@AccessToken() accessToken: string) {
     this.googleDriveService.setAccessToken(accessToken);
 

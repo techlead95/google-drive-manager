@@ -2,6 +2,7 @@
 
 import useHandleCallback from "@/apis/auth/use-handle-callback";
 import FileList from "@/components/file-list";
+import FileUpload from "@/components/file-upload";
 import GoogleLogin from "@/components/google-login";
 import { useTokens } from "@/contexts/tokens-context";
 
@@ -16,7 +17,10 @@ export default function Home() {
           <GoogleLogin />
         </div>
       ) : (
-        <FileList />
+        <div className="flex flex-col gap-4">
+          <FileUpload />
+          <FileList />
+        </div>
       )}
     </main>
   );
