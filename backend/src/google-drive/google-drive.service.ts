@@ -21,16 +21,17 @@ export class GoogleDriveService {
     });
   }
 
-  async listFiles() {
+  async getFiles(pageToken?: string) {
     const drive = google.drive({ version: 'v3', auth: this.oauth2Client });
 
     const response = await drive.files.list({
       pageSize: 10,
+      pageToken,
       fields: 'nextPageToken, files(id, name, modifiedTime)',
       q: "mimeType != 'application/vnd.google-apps.folder'",
     });
 
-    return response.data.files;
+    return response.data;
   }
 
   async uploadFile(file: Express.Multer.File) {

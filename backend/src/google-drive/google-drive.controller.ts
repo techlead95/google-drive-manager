@@ -6,6 +6,7 @@ import {
   Logger,
   Param,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseFilters,
@@ -20,12 +21,14 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { AccessToken } from 'src/auth/auth.decorator';
 import { GoogleApiExceptionFilter } from './google-drive.filter';
 import { GoogleDriveResponses } from './google-drive.decorator';
+import GetFilesResponse from './dtos/get-files-response';
 
 @ApiTags('google-drive')
 @ApiBearerAuth()
@@ -39,11 +42,24 @@ export class GoogleDriveController {
   @Get()
   @ApiOperation({ summary: 'List files in Google Drive' })
   @ApiResponse({ status: 200, description: 'List of files in Google Drive' })
+  @ApiQuery({
+    name: 'pageSize',
+    required: false,
+    description: 'Number of files per page',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of files in Google Drive',
+    type: GetFilesResponse,
+  })
   @GoogleDriveResponses()
-  async listFiles(@AccessToken() accessToken: string) {
+  async getFiles(
+    @AccessToken() accessToken: string,
+    @Query('pageToken') pageToken?: string,
+  ) {
     this.googleDriveService.setAccessToken(accessToken);
 
-    return this.googleDriveService.listFiles();
+    return this.googleDriveService.getFiles(pageToken);
   }
 
   @Post()

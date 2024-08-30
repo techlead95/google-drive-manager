@@ -1,10 +1,10 @@
 import useUploadFile from "@/apis/google-drive/use-upload-file";
 import { cn } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
-import { LoaderCircle, LoaderIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import UploadIcon from "./upload-icon";
+import LoadingSpinner from "./loading-spinner";
 
 export default function FileUpload() {
   const { mutate, isPending } = useUploadFile();
@@ -38,11 +38,7 @@ export default function FileUpload() {
     >
       <input {...getInputProps()} />
 
-      {isPending ? (
-        <LoaderIcon className="animate-spin w-8 h-8" />
-      ) : (
-        <UploadIcon />
-      )}
+      {isPending ? <LoadingSpinner /> : <UploadIcon />}
 
       <p className="text-sm text-gray-500 dark:text-gray-400">
         {isPending ? (
