@@ -1,5 +1,5 @@
 # Google Drive Manager
-![image](https://github.com/user-attachments/assets/6d258c0b-ea27-4471-be8e-d03362371e8b)
+![image](https://github.com/user-attachments/assets/c9b03a70-8fdc-4ca5-85f7-9b6efaf2a15f)
 
 ## Overview
 This project is a web application that manages files in Google Drive utilizing NestJS for the backend and ReactJS with Next.js for the frontend. The backend serves as an API provider with two main modules:
